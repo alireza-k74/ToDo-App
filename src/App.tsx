@@ -1,10 +1,11 @@
-import {NativeBaseProvider, Box} from 'native-base';
+import {NativeBaseProvider} from 'native-base';
 import React from 'react';
+import RootScreen from '~/navigation';
 
 const App = () => {
   return (
     <NativeBaseProvider>
-      <Box>Hello world</Box>
+      <RootScreen />
     </NativeBaseProvider>
   );
 };

@@ -15,7 +15,6 @@ export const mainStack = [
 const Stack = createNativeStackNavigator();
 
 export default function RootScreen() {
-  //useNotification();
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
