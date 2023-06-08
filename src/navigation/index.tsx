@@ -2,7 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {navigationRef} from './methods';
-import {SplashScreen} from '~/screens';
+import { SplashScreen } from '~/screens';
 
 export const mainStack = [
   {
