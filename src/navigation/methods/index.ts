@@ -2,12 +2,10 @@ import {
   CommonActions,
   createNavigationContainerRef,
   StackActions,
-} from "@react-navigation/native";
-import { UserBottomTabStackParamList } from "../userBottomTab";
-//import { UserDrawerStackParamList } from "../userDrawer";
-import { UserStackParamList } from "../users";
+} from '@react-navigation/native';
+import {MainStackParamList} from '..';
 
-export type StackParamList = UserBottomTabStackParamList & UserStackParamList;
+export type StackParamList = MainStackParamList;
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -29,7 +27,7 @@ const navigationMethod = (successCallback: () => unknown) => {
  */
 export function navigate<T extends keyof StackParamList>(
   name: T,
-  params?: StackParamList[T]
+  params?: StackParamList[T],
 ) {
   navigationMethod(() => {
     // @ts-ignore Suspended complexity warning typescript.
@@ -48,8 +46,8 @@ export function resetRoot(routeName: string, params?: object) {
     navigationRef?.current?.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: routeName, params }],
-      })
+        routes: [{name: routeName, params}],
+      }),
     );
   });
 }
@@ -101,7 +99,7 @@ export function getRootState() {
  */
 export function navigateDispatch<T extends keyof StackParamList>(
   name: T,
-  params?: StackParamList[T]
+  params?: StackParamList[T],
 ) {
   navigationMethod(() => {
     // @ts-ignore Suspended complexity warning typescript.
@@ -110,7 +108,7 @@ export function navigateDispatch<T extends keyof StackParamList>(
         name: name,
         params: params,
         key: name + Math.random() * 1000,
-      })
+      }),
     );
   });
 }

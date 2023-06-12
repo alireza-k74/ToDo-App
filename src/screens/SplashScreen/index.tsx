@@ -1,8 +1,15 @@
 import {Text} from 'native-base';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {navigate} from '~/navigation/methods';
 
 const SplashScreen = ({navigation}: {navigation: any}) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigate('Login');
+    }, 1000);
+  }, []);
+
   return (
     <SafeAreaView style={styles.circleStyle}>
       <View>
