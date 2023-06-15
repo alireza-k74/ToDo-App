@@ -1,11 +1,12 @@
-import {View, Text} from 'react-native';
 import React from 'react';
+import {Text} from 'react-native';
+import Ripple from 'react-native-material-ripple';
 
-const CustomButton = () => {
+const CustomButton = ({title = 'Submit'}: {title?: string}) => {
   return (
-    <View>
-      <Text>CustomButton</Text>
-    </View>
+    <Ripple>
+      <Text>{title}</Text>
+    </Ripple>
   );
 };
 

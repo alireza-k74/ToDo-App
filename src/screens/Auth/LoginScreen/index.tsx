@@ -5,6 +5,7 @@ import {englishLanPattern} from '~/constants/regexExp';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {FormProvider, useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 
 const schema = yup.object().shape({
   email: yup
@@ -22,9 +23,11 @@ const LoginScreen = () => {
   });
   const {handleSubmit, register, formState} = methods;
 
+  const {t, i18n} = useTranslation();
+
   return (
     <CustomContainer>
-      <CustomButton></CustomButton>
+      <CustomButton title={t('login')} />
     </CustomContainer>
   );
 };
