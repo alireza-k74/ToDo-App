@@ -1,13 +1,61 @@
-import {View, Text} from 'react-native';
 import React from 'react';
-import {CustomContainer} from '~/components';
+import {View, StyleSheet, ListRenderItem} from 'react-native';
+import {Tabs} from 'react-native-collapsible-tab-view';
 
-const HomeScreen = () => {
+const HEADER_HEIGHT = 250;
+
+const DATA = [0, 1, 2, 3, 4];
+const identity = (v: unknown): string => v + '';
+
+const Header = () => {
+  return <View style={styles.header} />;
+};
+
+const HomeScreen: React.FC = () => {
+  const renderItem: ListRenderItem<number> = React.useCallback(({index}) => {
+    return (
+      <View style={[styles.box, index % 2 === 0 ? styles.boxB : styles.boxA]} />
+    );
+  }, []);
+
   return (
-    <CustomContainer>
-      <Text>HomeScreen</Text>
-    </CustomContainer>
+    <Tabs.Container
+      renderHeader={Header}
+      headerHeight={HEADER_HEIGHT} // optional
+    >
+      <Tabs.Tab name="A">
+        <Tabs.FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={identity}
+        />
+      </Tabs.Tab>
+      <Tabs.Tab name="B">
+        <Tabs.ScrollView>
+          <View style={[styles.box, styles.boxA]} />
+          <View style={[styles.box, styles.boxB]} />
+        </Tabs.ScrollView>
+      </Tabs.Tab>
+    </Tabs.Container>
   );
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  box: {
+    height: 250,
+    width: '100%',
+  },
+  boxA: {
+    backgroundColor: 'white',
+  },
+  boxB: {
+    backgroundColor: '#D8D8D8',
+  },
+  header: {
+    height: HEADER_HEIGHT,
+    width: '100%',
+    backgroundColor: '#2196f3',
+  },
+});

@@ -14,3 +14,6 @@ export {default as DoneTasksScreen} from './Task/DoneTasksScreen';
 export {default as EditTaskScreen} from './Task/EditTaskScreen';
 export {default as LaterTaskScreen} from './Task/LaterTaskScreen';
 export {default as ViewTaskScreen} from './Task/ViewTaskScreen';
+
+// Setting
+export {default as SettingsScreen} from './SettingsScreen';

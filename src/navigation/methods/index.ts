@@ -1,9 +1,11 @@
 import {
   CommonActions,
   createNavigationContainerRef,
+  DrawerActions,
   StackActions,
 } from '@react-navigation/native';
 import {MainStackParamList} from '..';
+import { Keyboard } from 'react-native';
 
 export type StackParamList = MainStackParamList;
 
@@ -123,4 +125,9 @@ export function pop(numberOfPages: number) {
   navigationMethod(() => {
     navigationRef?.current?.dispatch(StackActions.pop(numberOfPages));
   });
+}
+
+export function toggleDrawer() {
+  Keyboard.dismiss();
+  return navigationRef?.current.dispatch(DrawerActions.toggleDrawer());
 }

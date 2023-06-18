@@ -1,15 +1,23 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {LoginScreen, SignUpScreen, SplashScreen} from '~/screens';
+import {
+  LoginScreen,
+  SettingsScreen,
+  SignUpScreen,
+  SplashScreen,
+} from '~/screens';
 import DrawerStack from './DrawerStack';
 import {navigationRef} from './methods';
+import {HeaderLeft} from '~/components';
+import {Colors} from '~/styles/colors';
 
 export type MainStackParamList = {
   Splash: undefined;
   Login: undefined;
   SignUp: undefined;
   Drawer: undefined;
+  Settings: undefined;
 };
 
 export const mainStack = [
@@ -29,9 +37,22 @@ export const mainStack = [
     options: {headerShown: false},
   },
   {
+    name: 'Settings',
+    component: SettingsScreen,
+    options: {headerShown: false},
+  },
+  {
     name: 'Drawer',
     component: DrawerStack,
-    options: {headerShown: false},
+    options: {
+      headerShown: true,
+      title: 'Profile',
+      headerTintColor: Colors.black,
+      headerLeft: () => <HeaderLeft />,
+      headerStyle: {
+        borderBottomWidth: 1,
+      },
+    },
   },
 ];
 
