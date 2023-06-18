@@ -1,51 +1,39 @@
 import React, {useState} from 'react';
 import {
-  TextInput,
-  Platform,
-  StyleSheet,
-  TextStyle,
-  TouchableOpacity,
-} from 'react-native';
-import {FormControl, Text, HStack, Box, VStack} from 'native-base';
+  Icon,
+  FormControl,
+  Text,
+  HStack,
+  Box,
+  Popover,
+  Button,
+  VStack,
+} from 'native-base';
+import {TouchableOpacity, TextInput, Platform, StyleSheet} from 'react-native';
 import {useController} from 'react-hook-form';
-import {scale, verticalScale} from 'react-native-size-matters';
-import {customFonts} from '~/styles/fonts';
-import {SvgXml} from 'react-native-svg';
-import {closeEye, openEye} from '~/assets/icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {isAndroid} from '~/utils/common';
 import {Colors} from '~/styles/colors';
+import {scale} from 'react-native-size-matters';
 
 export default React.forwardRef(
   (
     {
       name,
       placeholder,
+      type,
       keyboardType,
       backgroundColor = 'transparent',
       label,
-      color = Colors.txtLight,
+      required = false,
+      color = Colors.TEXT,
       textArea = false,
-      inputStyle = styles.input,
-      icon,
-      leftIcon,
-      rightText,
-      leftText,
-      disabled,
-      rightComponent,
-      formState,
-      validation = true,
-      width = '100%',
-      height = verticalScale(56),
-      labelFontSize = scale(13),
-      fontSize = scale(13),
-      autoFocus,
-      inputType,
-      isHorizontal,
-      defaultValue,
-      onChange,
-      onPress,
+      info,
+      disabled = false,
     }: {
       name: any;
       placeholder?: string;
+      type?: string;
       keyboardType?:
         | 'default'
         | 'email-address'
@@ -63,233 +51,132 @@ export default React.forwardRef(
         | undefined;
       backgroundColor?: string;
       label?: string;
+      required?: boolean;
       color?: string;
       textArea?: boolean;
-      inputStyle?: TextStyle;
-      leftIcon?: any;
-      icon?: any;
-      width?: number | string;
-      rightText?: string;
-      leftText?: string;
+      info?: any;
       disabled?: boolean;
-      rightComponent?: any;
-      formState?: any;
-      validation?: boolean;
-      height?: number;
-      labelFontSize?: number;
-      fontSize?: number;
-      autoFocus?: boolean;
-      inputType?: string | undefined;
-      isHorizontal?: boolean;
-      defaultValue?: string | number;
-      onChange?: any;
-      onPress?: any;
     },
     ref: any,
   ) => {
     const {field, fieldState} = useController({name});
-    const [isFocused, setIsFocused] = useState<boolean>(false);
-    const [secureText, setSecureText] = useState<boolean>(true);
+    const [visible, setVisible] = useState(false);
 
-    const handleSecurePassword = () => {
-      setSecureText(prevState => !prevState);
+    const closeModal = () => {
+      setVisible(false);
     };
-
-    const isDirty = formState?.isDirty;
-
-    const borderColor = disabled
-      ? Colors.disabled
-      : fieldState.error
-      ? Colors.error
-      : !validation
-      ? Colors.gray
-      : isDirty
-      ? Colors.gray
-      : Colors.disabled;
-
-    const handleFocus = () => {
-      setIsFocused(true);
-    };
-
-    const handleBlur = (val: any) => {
-      setIsFocused(false);
-      field.onBlur?.(val);
-    };
-
-    //Restrict user to just write in English
-    const handleOnChange = (val: any) => {
-      /*  let value = val.replace(/[^A-Za-z][^0-9][!@#\$%\^&\*]/ig, '');
-       //console.log('show value',value) */
-      field.onChange(val);
-      onChange(val);
-    };
-
     return (
-      <FormControl
-        isInvalid={fieldState.error}
-        mb={isHorizontal ? -4 : undefined}
-        alignSelf={'center'}
-        width={`${width}px`}>
-        <Box
-          mt={defaultValue === '' && !isFocused ? '0' : '4'}
-          width={`${width}px`}>
-          {(isFocused ||
-            field.value ||
-            fieldState.error ||
-            disabled ||
-            defaultValue) && (
-            <VStack zIndex={60} position="absolute" left="4" top="-12">
-              <Box
-                position="absolute"
-                bottom="35%"
-                zIndex={60}
-                bg={Colors.white}
-                backgroundColor={Colors.white}
-                h="2"
-                w="100%"
-              />
-              <Text
-                ml="3"
-                mr="4"
-                zIndex={100}
-                fontSize={labelFontSize}
-                backgroundColor={Colors.white}
-                fontFamily={customFonts.regular}
-                color={
-                  disabled
-                    ? Colors.txtLight
-                    : field.value
-                    ? Colors.txtLight
-                    : fieldState.error
-                    ? Colors.error
-                    : defaultValue
-                    ? Colors.txtMedium
-                    : Colors.txtLight
-                }>
-                {label ? label : placeholder}
-              </Text>
-            </VStack>
-          )}
-          <HStack
-            h={textArea ? `${height * 2}px` : `${height}px`}
-            w={`${width}px`}
-            px="2"
-            borderWidth="1px"
-            borderRadius="lg"
-            alignItems="center"
-            bg={backgroundColor}
-            justifyContent="center"
-            borderColor={borderColor}>
-            {leftText && (
-              <Text
-                fontSize={fontSize}
-                fontFamily={customFonts.regular}
-                color={disabled ? Colors.disabled : Colors.txtLight}>
-                {leftText + ' '}
-              </Text>
-            )}
-            {leftIcon && (
-              <SvgXml
-                style={{marginRight: scale(10)}}
-                xml={leftIcon}
-                fill={disabled ? Colors.disabled : Colors.primary}
-              />
-            )}
-            <TextInput
-              onPressIn={onPress}
-              defaultValue={defaultValue}
-              autoFocus={autoFocus}
-              ref={ref}
-              value={field.value}
-              onFocus={handleFocus}
-              showSoftInputOnFocus={true}
-              onBlur={handleBlur}
-              editable={!disabled}
-              autoCapitalize="none"
-              placeholder={
-                !isFocused ? (label ? label : placeholder) : placeholder
-              }
-              keyboardType={keyboardType}
-              maxLength={
-                keyboardType == 'number-pad' || keyboardType == 'numeric'
-                  ? 10
-                  : 250
-              }
-              onChangeText={handleOnChange}
-              numberOfLines={textArea ? 4 : 1}
-              multiline={textArea ? true : false}
-              textAlignVertical={textArea ? 'top' : 'center'}
-              secureTextEntry={inputType === 'password' ? secureText : false}
-              placeholderTextColor={
-                disabled ? Colors.disabled : Colors.txtMedium
-              }
-              style={[
-                inputStyle,
-                {
-                  paddingTop: textArea ? 15 : 0,
-                  paddingBottom: textArea ? 15 : 0,
-                  fontSize: isFocused ? fontSize - 1 : fontSize,
-                  textAlignVertical: textArea ? 'top' : 'center',
-                  color: color,
-                  textAlign: 'left',
-                },
-                Platform.OS === 'ios' && {minHeight: height},
-              ]}
-            />
-            {!disabled
-              ? inputType === 'password' && (
-                  <TouchableOpacity
-                    onPress={handleSecurePassword}
-                    activeOpacity={0.7}>
-                    <SvgXml xml={secureText ? openEye : closeEye} />
-                  </TouchableOpacity>
-                )
-              : null}
-            {icon && !isFocused && (
-              <SvgXml
-                xml={icon}
-                fill={disabled ? Colors.disabled : Colors.primary}
-              />
-            )}
-            {rightText && (
-              <Text
-                fontSize={fontSize}
-                fontFamily={customFonts.regular}
-                color={disabled ? Colors.disabled : Colors.txtLight}>
-                {rightText}
-              </Text>
-            )}
-            {rightComponent && rightComponent()}
-          </HStack>
-        </Box>
-
-        {validation && fieldState.error && (
-          <FormControl.ErrorMessage
-            fontSize={scale(13)}
-            width={width}
-            fontFamily={customFonts.regular}
-            mt="0.5">
-            <Text color={Colors.error}> {fieldState.error?.message}</Text>
-          </FormControl.ErrorMessage>
+      <FormControl isInvalid={fieldState.error} w={{base: '100%'}}>
+        {label && (
+          <Text color={Colors.HEADER_TITLE} fontSize={scale(11)} mb="-1">
+            {label}
+            {required && <Text color={Colors.ORANGE_BASE}>{'   *'}</Text>}
+          </Text>
         )}
-
-        {isHorizontal && !fieldState.error && (
-          <FormControl.HelperText
-            fontSize={scale(13)}
-            fontFamily={customFonts.regular}
-            mt="0">
-            {''}
-          </FormControl.HelperText>
-        )}
+        <HStack
+          bg={backgroundColor}
+          //borderRadius="md"
+          borderColor={Colors.BORDER_COLOR}
+          borderBottomWidth="1"
+          alignItems="center"
+          justifyContent="center">
+          <TextInput
+            ref={ref}
+            editable={!disabled}
+            numberOfLines={textArea ? 4 : 1}
+            textAlignVertical={textArea ? 'top' : 'center'}
+            placeholder={placeholder}
+            secureTextEntry={type === 'password' ? true : false}
+            placeholderTextColor={Colors.PLACE_HOLDER}
+            autoCapitalize="none"
+            keyboardType={keyboardType}
+            multiline={textArea ? true : false}
+            value={field.value}
+            onChangeText={field.onChange}
+            onBlur={field.onBlur}
+            style={[
+              {
+                flex: 1,
+                fontSize: scale(12),
+                // fontFamily: fontFamily.regular,
+                textAlignVertical: textArea ? 'top' : 'center',
+                color: color,
+              },
+              Platform.OS === 'ios' && {height: 45},
+            ]}
+          />
+          {info ? (
+            isAndroid ? (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setVisible(true)}>
+                <Icon
+                  as={<Ionicons name="ios-information-circle-outline" />}
+                  size={scale(20)}
+                  color={Colors.ORANGE_BASE}
+                  mr="2"
+                />
+              </TouchableOpacity>
+            ) : (
+              <Box alignItems="center">
+                <Popover
+                  trigger={triggerProps => {
+                    return (
+                      <Button {...triggerProps} bgColor="white">
+                        <Icon
+                          as={
+                            <Ionicons name="ios-information-circle-outline" />
+                          }
+                          size={scale(20)}
+                          color={Colors.ORANGE_BASE}
+                          mr="1"
+                        />
+                      </Button>
+                    );
+                  }}>
+                  <Popover.Content w="56" bg={Colors.ORANGE_BASE}>
+                    <Popover.Arrow />
+                    <Popover.CloseButton bgColor={Colors.WHITE} />
+                    <Popover.Header>
+                      <Text color={Colors.WHITE} bold fontSize={scale(14)}>
+                        {label}
+                      </Text>
+                    </Popover.Header>
+                    <Popover.Body>
+                      <Text color={Colors.WHITE} fontSize={scale(12)}>
+                        {info}
+                      </Text>
+                    </Popover.Body>
+                  </Popover.Content>
+                </Popover>
+              </Box>
+            )
+          ) : null}
+        </HStack>
+        <FormControl.ErrorMessage
+        // fontFamily={fontFamily.regular}
+        >
+          {fieldState.error?.message}
+        </FormControl.ErrorMessage>
       </FormControl>
     );
   },
 );
 
 const styles = StyleSheet.create({
-  input: {
+  avatar: {
+    borderRadius: 100,
+    height: scale(80),
+    width: scale(80),
+  },
+  image: {
+    width: '100%',
+  },
+  flex1: {flexGrow: 1},
+  button: {
     flex: 1,
-    fontFamily: customFonts.regular,
     height: '100%',
+    justifyContent: 'center',
+    borderBottomWidth: 1.5,
   },
 });

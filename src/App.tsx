@@ -4,6 +4,11 @@ import RootScreen from '~/navigation';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import {Provider} from 'react-redux';
 import createStore from './stores';
+import {LogBox} from 'react-native';
+
+console.disableYellowBox = true;
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 
 export const {store, persistor} = createStore();
 

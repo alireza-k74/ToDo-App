@@ -1,13 +1,15 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {navigationRef} from './methods';
 import {LoginScreen, SignUpScreen, SplashScreen} from '~/screens';
+import DrawerStack from './DrawerStack';
+import {navigationRef} from './methods';
 
 export type MainStackParamList = {
   Splash: undefined;
   Login: undefined;
   SignUp: undefined;
+  Drawer: undefined;
 };
 
 export const mainStack = [
@@ -24,6 +26,11 @@ export const mainStack = [
   {
     name: 'SignUp',
     component: SignUpScreen,
+    options: {headerShown: false},
+  },
+  {
+    name: 'Drawer',
+    component: DrawerStack,
     options: {headerShown: false},
   },
 ];

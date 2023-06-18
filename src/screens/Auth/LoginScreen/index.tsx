@@ -1,11 +1,19 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import {CustomButton, CustomContainer} from '~/components';
-import {englishLanPattern} from '~/constants/regexExp';
 import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import {VStack} from 'native-base';
+import React from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
+import {SvgXml} from 'react-native-svg';
+import * as yup from 'yup';
+import {logo} from '~/assets/icons';
+import {
+  CustomButton,
+  CustomContainer,
+  CustomInput,
+  CustomKeyboardAwareScrollView,
+} from '~/components';
+import {englishLanPattern} from '~/constants/regexExp';
+import {navigate, replace} from '~/navigation/methods';
 
 const schema = yup.object().shape({
   email: yup
@@ -27,7 +35,31 @@ const LoginScreen = () => {
 
   return (
     <CustomContainer>
-      <CustomButton title={t('login')} />
+      <FormProvider {...methods}>
+        <CustomKeyboardAwareScrollView>
+          <SvgXml xml={logo} />
+          <VStack space="4">
+            <CustomInput
+              {...register('email')}
+              keyboardType="email-address"
+              {...{formState}}
+            />
+            <CustomInput
+              {...register('password')}
+              {...{formState}}
+              type="password"
+            />
+            <CustomButton
+              title={t('login')}
+              onPress={() => replace('Drawer')}
+            />
+            <CustomButton
+              title={t('signUp')}
+              onPress={() => navigate('SignUp')}
+            />
+          </VStack>
+        </CustomKeyboardAwareScrollView>
+      </FormProvider>
     </CustomContainer>
   );
 };
