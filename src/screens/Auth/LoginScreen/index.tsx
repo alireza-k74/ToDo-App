@@ -31,6 +31,7 @@ const LoginScreen = () => {
   const {handleSubmit, register, formState} = methods;
 
   const {t, i18n} = useTranslation();
+  console.log(i18n.language);
 
   return (
     <CustomContainer>

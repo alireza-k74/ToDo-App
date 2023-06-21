@@ -5,6 +5,7 @@ import {PersistGate} from 'redux-persist/lib/integration/react';
 import {Provider} from 'react-redux';
 import createStore from './stores';
 import {LogBox} from 'react-native';
+import './i18n';
 
 console.disableYellowBox = true;
 LogBox.ignoreLogs(['Warning: ...']);

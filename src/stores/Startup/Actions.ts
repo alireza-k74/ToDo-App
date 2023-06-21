@@ -1,6 +1,7 @@
 import {createActions} from 'reduxsauce';
 
 const {Types, Creators: StartupActions} = createActions({
+  selectedLanguage: ['language'],
   startupProcess: null,
   setIntroViewed: ['introViewed'],
   selectedRegion: ['region'],
