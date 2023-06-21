@@ -1,7 +1,13 @@
 import {Text} from 'native-base';
 import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  I18nManager,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import StartupActions from '~/stores/Startup/Actions';
 import {makeStyles, useTheme, useThemeMode} from '@rneui/themed';
@@ -27,7 +33,9 @@ const SplashScreen = (props: Props) => {
 
     i18n
       .changeLanguage(currentLang)
-      .then(() => {})
+      .then(() => {
+        I18nManager.forceRTL(i18n.language === 'fa');
+      })
       .catch(err => console.log(err));
   };
 

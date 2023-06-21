@@ -3,7 +3,7 @@ import {CustomContainer} from '~/components';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import StartupActions from '~/stores/Startup/Actions';
-import {Switch, Text} from 'react-native';
+import {I18nManager, Switch, Text} from 'react-native';
 
 const SettingsScreen = () => {
   const lang = useSelector(state => state?.startup?.language);
@@ -17,7 +17,10 @@ const SettingsScreen = () => {
     console.log(value);
     i18n
       .changeLanguage(value)
-      .then(() => dispatch(StartupActions.selectedLanguage(selectLang)))
+      .then(() => {
+        I18nManager.forceRTL(i18n.language === 'fa');
+        dispatch(StartupActions.selectedLanguage(selectLang));
+      })
       .catch(err => console.log(err));
   };
 
