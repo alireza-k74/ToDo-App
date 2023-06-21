@@ -1,11 +1,13 @@
+import {ThemeProvider} from '@rneui/themed';
 import {NativeBaseProvider} from 'native-base';
 import React from 'react';
-import RootScreen from '~/navigation';
-import {PersistGate} from 'redux-persist/lib/integration/react';
-import {Provider} from 'react-redux';
-import createStore from './stores';
 import {LogBox} from 'react-native';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/lib/integration/react';
+import RootScreen from '~/navigation';
 import './i18n';
+import createStore from './stores';
+import {theme} from './theme';
 
 console.disableYellowBox = true;
 LogBox.ignoreLogs(['Warning: ...']);
@@ -20,7 +22,9 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NativeBaseProvider>
-          <RootScreen />
+          <ThemeProvider theme={theme}>
+            <RootScreen />
+          </ThemeProvider>
         </NativeBaseProvider>
       </PersistGate>
     </Provider>
