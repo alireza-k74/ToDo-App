@@ -1,26 +1,23 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import {VStack} from 'native-base';
+import {Image, VStack} from 'native-base';
 import React from 'react';
 import {FormProvider, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {SvgXml} from 'react-native-svg';
 import * as yup from 'yup';
-import {logo} from '~/assets/icons';
+import {lock, personIcon} from '~/assets/icons';
+import images from '~/assets/images';
 import {
   CustomButton,
   CustomContainer,
   CustomInput,
   CustomKeyboardAwareScrollView,
 } from '~/components';
-import {englishLanPattern} from '~/constants/regexExp';
 import {goBack} from '~/navigation/methods';
+import {useDispatch} from 'react-redux';
+import AuthActions from '~/stores/Auth/Actions';
 
 const schema = yup.object().shape({
-  email: yup
-    .string()
-    .matches(englishLanPattern, 'email must be valid!')
-    .email()
-    .required('required'),
+  userName: yup.string().required('required'),
   password: yup.string().required('Required'),
 });
 
@@ -30,25 +27,36 @@ const SignUpScreen = () => {
     mode: 'onChange',
   });
   const {handleSubmit, register, formState} = methods;
+  const dispatch = useDispatch();
+  const onSignUpPress = (formData: any) => {
+    dispatch(AuthActions.signUp(formData?.userName, formData?.password));
+  };
 
   const {t, i18n} = useTranslation();
   return (
     <CustomContainer>
       <FormProvider {...methods}>
         <CustomKeyboardAwareScrollView>
-          <SvgXml xml={logo} />
+          <Image source={images.Logo} size="16" />
+
           <VStack space="4">
             <CustomInput
-              {...register('email')}
-              keyboardType="email-address"
+              {...register('userName')}
               {...{formState}}
+              icon={personIcon}
+              placeholder={t('userName')}
             />
             <CustomInput
               {...register('password')}
               {...{formState}}
               type="password"
+              icon={lock}
+              placeholder={t('password')}
             />
-            <CustomButton title={t('signUp')} />
+            <CustomButton
+              title={t('signUp')}
+              onPress={handleSubmit(onSignUpPress)}
+            />
             <CustomButton title={t('login')} onPress={() => goBack()} />
           </VStack>
         </CustomKeyboardAwareScrollView>

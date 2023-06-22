@@ -8,7 +8,7 @@ import RootScreen from '~/navigation';
 import './i18n';
 import createStore from './stores';
 import {theme} from './theme';
-
+import {AppProvider} from '@realm/react';
 console.disableYellowBox = true;
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -23,7 +23,9 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NativeBaseProvider>
           <ThemeProvider theme={theme}>
-            <RootScreen />
+            <AppProvider id={'asdsadsad'}>
+              <RootScreen />
+            </AppProvider>
           </ThemeProvider>
         </NativeBaseProvider>
       </PersistGate>

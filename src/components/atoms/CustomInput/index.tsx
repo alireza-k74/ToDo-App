@@ -15,6 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {isAndroid} from '~/utils/common';
 import {Colors} from '~/styles/colors';
 import {scale} from 'react-native-size-matters';
+import {SvgXml} from 'react-native-svg';
 
 export default React.forwardRef(
   (
@@ -30,6 +31,7 @@ export default React.forwardRef(
       textArea = false,
       info,
       disabled = false,
+      icon,
     }: {
       name: any;
       placeholder?: string;
@@ -56,6 +58,7 @@ export default React.forwardRef(
       textArea?: boolean;
       info?: any;
       disabled?: boolean;
+      icon?: any;
     },
     ref: any,
   ) => {
@@ -80,6 +83,7 @@ export default React.forwardRef(
           borderBottomWidth="1"
           alignItems="center"
           justifyContent="center">
+          {icon && <SvgXml xml={icon} />}
           <TextInput
             ref={ref}
             editable={!disabled}

@@ -1,6 +1,8 @@
 {
   "translation": {
     "login": "Login",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "userName": "Username",
+    "password": "Password"
   }
 }

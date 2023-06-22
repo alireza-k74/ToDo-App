@@ -11,7 +11,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import StartupActions from '~/stores/Startup/Actions';
 import {makeStyles, useTheme, useThemeMode} from '@rneui/themed';
-import {useColorScheme} from 'react-native-appearance';
 
 type Props = {
   fullWidth?: boolean;
@@ -21,27 +20,27 @@ const SplashScreen = (props: Props) => {
   const dispatch = useDispatch();
   const {mode, setMode} = useThemeMode();
   const styles = useStyles(props);
-  const colorMode = useColorScheme();
   const {theme} = useTheme();
   const lang = useSelector(state => state?.startup?.language);
   const selectLang = lang == 'en' ? 'fa' : 'en';
   const {t, i18n} = useTranslation();
-  console.log(colorMode, mode, theme);
 
   const checkLang = currentLang => {
     console.log(currentLang, 'currentLang');
 
     i18n
-      .changeLanguage(currentLang)
+      .changeLanguage('en')
       .then(() => {
-        I18nManager.forceRTL(i18n.language === 'fa');
+        dispatch(StartupActions.startupProcess());
+        I18nManager.forceRTL(false);
       })
       .catch(err => console.log(err));
   };
 
   useEffect(() => {
-    checkLang(selectLang);
-    dispatch(StartupActions.startupProcess());
+    if (selectLang) {
+      checkLang(selectLang);
+    }
   }, [selectLang]);
 
   return (

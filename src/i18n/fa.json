@@ -1,6 +1,8 @@
 {
   "translation": {
     "login": "ورود",
-    "signUp": "ثبت نام"
+    "signUp": "ثبت نام",
+    "userName": "نام کاربری",
+    "password": "رمز عبور"
   }
 }

@@ -18,7 +18,7 @@ const SettingsScreen = () => {
     i18n
       .changeLanguage(value)
       .then(() => {
-        I18nManager.forceRTL(i18n.language === 'fa');
+        // I18nManager.forceRTL(i18n.language === 'fa');
         dispatch(StartupActions.selectedLanguage(selectLang));
       })
       .catch(err => console.log(err));

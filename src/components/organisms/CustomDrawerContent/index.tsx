@@ -4,7 +4,7 @@ import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {navigate} from '~/navigation/methods';
+import {navigate, replace} from '~/navigation/methods';
 import {Colors} from '~/styles/colors';
 
 const data = [
@@ -42,8 +42,7 @@ export default function CustomDrawerContent(props: any) {
 
           <TouchableOpacity
             activeOpacity={0.6}
-            // onPress={signOutHandler}
-          >
+            onPress={() => replace('Login')}>
             <HStack alignItems="center" space="4">
               <Icon
                 as={<Ionicons name={'exit-outline'} />}

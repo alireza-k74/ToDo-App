@@ -9,5 +9,5 @@ export const lock = `<svg xmlns="http://www.w3.org/2000/svg" width="44" height="
   <path id="Path_2" data-name="Path 2" d="M27,28a4,4,0,0,0-4,4v6a4,4,0,0,0,8,0V32A4,4,0,0,0,27,28Zm2,10a2,2,0,0,1-4,0V32a2,2,0,0,1,4,0Z"/>
 </g>
 </svg>
-`;
 
+`;
